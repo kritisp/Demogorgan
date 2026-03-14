@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/radar.css';
+import welcomeImg from '../assets/welcome-hawkins.jpg';
+import demoHeadImg from '../assets/demo_head-removebg.png';
+import agentIconImg from '../assets/Hawkins-removebg.png';
 
 const Radar = ({ devices = {}, state, role, demogorgonId }) => {
   // state: 'SEARCHING' | 'DETECTED' | 'DANGER' | 'CAPTURING'
@@ -37,15 +40,26 @@ const Radar = ({ devices = {}, state, role, demogorgonId }) => {
 
   return (
     <div className={`radar-container ${isDanger ? 'screen-flash-red' : ''}`}>
+      <div className="radar-image-bg" style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.75), rgba(80,0,0,0.55)), url(${welcomeImg})`
+      }} />
+      <div className="radar-fog-overlay" />
+
       <div className="radar-grid"></div>
       <div className="radar-circles"></div>
+      <div className="radar-sweep"></div>
+
+      <div className="center-icon-container">
+        {role === 'DEMOGORGON' && <img src={demoHeadImg} alt="Demogorgon" className="icon-demo" />}
+        {role === 'AGENT' && <img src={agentIconImg} alt="Agent" className="icon-agent" />}
+      </div>
 
       {deviceList.map(([name, data]) => {
         const { x, y } = calculatePos(data.avgRSSI, angles[name] || 0);
-        
+
         const isMeAgent = role === 'AGENT';
         const isDead = data.isDead;
-        
+
         // Agent radar = all blue dots. Demogorgon radar = all red dots.
         const dotColor = isMeAgent ? '#3b82f6' : '#ff0000';
         const pulseClass = isMeAgent ? 'pulse-blue' : 'pulse';
@@ -70,7 +84,7 @@ const Radar = ({ devices = {}, state, role, demogorgonId }) => {
             }}
           >
             {isDead ? '❌' : ''}
-            <span style={{
+            <span className="radar-player-label" style={{
               position: 'absolute',
               top: '100%',
               left: '50%',
@@ -81,7 +95,7 @@ const Radar = ({ devices = {}, state, role, demogorgonId }) => {
               textDecoration: isDead ? 'line-through' : 'none',
               textShadow: '2px 2px 4px #000',
               fontWeight: 'bold',
-              marginTop: '2px'
+              marginTop: '4px'
             }}>
               {data.playerName || name}
             </span>
@@ -89,19 +103,7 @@ const Radar = ({ devices = {}, state, role, demogorgonId }) => {
         );
       })}
 
-      <div className="radar-sweep"></div>
-
-      <div style={{
-        position: 'absolute',
-        bottom: '10px',
-        width: '100%',
-        textAlign: 'center',
-        color: deviceList.length > 0 ? 'var(--accent-green)' : 'var(--text-secondary)',
-        fontFamily: 'Orbitron',
-        fontSize: '0.8rem',
-        fontWeight: 'bold',
-        textShadow: '0 0 5px #000'
-      }}>
+      <div className="radar-status-text">
         {deviceList.length === 0 ? 'SCANNING...' : `TRACKING ${deviceList.length} TARGETS`}
       </div>
     </div>
@@ -109,3 +111,4 @@ const Radar = ({ devices = {}, state, role, demogorgonId }) => {
 };
 
 export default Radar;
+
