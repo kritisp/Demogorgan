@@ -1,0 +1,162 @@
+/* radar.css */
+
+.radar-container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1/1;
+  height: auto;
+  background-color: #0d1a12;
+  border-radius: 50%;
+  border: 4px solid #1a3322;
+  box-shadow: 0 0 20px #00ff0033;
+  margin: 0 auto;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.radar-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: 
+    linear-gradient(90deg, transparent 49.5%, #1a3322 49.5%, #1a3322 50.5%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, #1a3322 49.5%, #1a3322 50.5%, transparent 50.5%);
+}
+
+.radar-circles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid #1a3322;
+}
+
+.radar-circles::before {
+  content: '';
+  position: absolute;
+  top: 16.6%;
+  left: 16.6%;
+  width: 66.8%;
+  height: 66.8%;
+  border-radius: 50%;
+  border: 1px solid #1a3322;
+}
+
+.radar-circles::after {
+  content: '';
+  position: absolute;
+  top: 33.3%;
+  left: 33.3%;
+  width: 33.4%;
+  height: 33.4%;
+  border-radius: 50%;
+  border: 1px solid #1a3322;
+}
+
+.radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  background: conic-gradient(from 0deg, transparent 70%, rgba(0, 255, 0, 0.4) 100%);
+  transform-origin: 0 0;
+  animation: sweep 2s linear infinite;
+  border-radius: 0 100% 0 0;
+}
+
+@keyframes sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.demogorgon-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease-out;
+  z-index: 10;
+}
+
+.agent-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease-out;
+  z-index: 9;
+}
+
+.dead-dot {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  color: #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.demogorgon-dot.pulse,
+.agent-dot.pulse {
+  animation: pulse-red 0.5s infinite alternate;
+}
+
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.demogorgon-dot.pulse-blue,
+.agent-dot.pulse-blue {
+  animation: pulse-blue 0.5s infinite alternate;
+}
+
+@keyframes pulse-blue {
+  0% {
+    box-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    box-shadow: 0 0 20px #3b82f6, 0 0 40px #3b82f6, 0 0 60px #3b82f6;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.screen-flash-red {
+  animation: flash-red 1s infinite alternate;
+}
+
+@keyframes flash-red {
+  0% {
+    background-color: #111;
+  }
+  100% {
+    background-color: #3b0a0a;
+  }
+}
